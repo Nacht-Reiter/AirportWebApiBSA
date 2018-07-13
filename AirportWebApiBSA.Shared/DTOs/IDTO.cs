@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AirportWebApiBSA.DAL.Interfaces
+namespace AirportWebApiBSA.Shared.DTOs
 {
-    public interface IModel
+    public interface IDTO
     {
         int Id { get; set; }
     }

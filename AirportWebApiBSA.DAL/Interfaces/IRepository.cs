@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AirportWebApiBSA.DAL.Interfaces
 { 
-    interface IRepository<T> where T : IModel
+    public interface IRepository<T> where T : IModel
     {
         IEnumerable<T> GetAll();
         T Get(int id);

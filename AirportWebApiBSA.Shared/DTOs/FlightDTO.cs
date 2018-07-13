@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AirportWebApiBSA.DAL.Models
+namespace AirportWebApiBSA.Shared.DTOs
 {
-    class FlightDTO
+    public class FlightDTO : IDTO
     {
         public int Id { get; set; }
         public string EntryPoint { get; set; }

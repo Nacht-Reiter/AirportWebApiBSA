@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AirportWebApiBSA.DAL.Models
+namespace AirportWebApiBSA.Shared.DTOs
 {
-    class AirCraftTypeDTO
+    public class AirCraftTypeDTO : IDTO
     {
         public int Id { get; set; }
-        public int Model { get; set; }
+        public string Model { get; set; }
         public int PassengersCapacity { get; set; }
         public decimal CargoCapacity { get; set; }
     }

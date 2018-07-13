@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AirportWebApiBSA.DAL.Models
 {
-    class AirCraft: Interfaces.IModel
+    public class AirCraft : Interfaces.IModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

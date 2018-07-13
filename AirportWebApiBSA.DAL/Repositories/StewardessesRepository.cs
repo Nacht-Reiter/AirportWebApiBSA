@@ -7,13 +7,13 @@ using System.Text;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
-    class StewardessesRepository<T> : BaseRepository<T> where T : Stewardess
+    class StewardessesRepository : BaseRepository<Stewardess>
     {
         private new IList<Stewardess> ItemsList = new List<Stewardess>
         {
             new Stewardess
             {
-                Id = Guid.NewGuid().GetHashCode(),
+                Id = 1,
                 Name = "Maria",
                 Surname = "Hernandez",
                 Birthday = new DateTime(1996, 7, 11)
@@ -21,28 +21,28 @@ namespace AirportWebApiBSA.DAL.Repositories
             },
             new Stewardess
             {
-                Id = Guid.NewGuid().GetHashCode(),
+                Id = 2,
                 Name = "Sarah",
                 Surname = "Williams",
                 Birthday = new DateTime(1995, 12, 7)
             },
             new Stewardess
             {
-                Id = Guid.NewGuid().GetHashCode(),
+                Id = 3,
                 Name = "Ann",
                 Surname = "Jones",
                 Birthday = new DateTime(1988, 9, 17)
             },
             new Stewardess
             {
-                Id = Guid.NewGuid().GetHashCode(),
+                Id = 4,
                 Name = "Nancy",
                 Surname = "Taylor",
                 Birthday = new DateTime(1997, 3, 4)
             },
             new Stewardess
             {
-                Id = Guid.NewGuid().GetHashCode(),
+                Id = 5,
                 Name = "Catherine",
                 Surname = "Clark",
                 Birthday = new DateTime(1992, 1, 28)

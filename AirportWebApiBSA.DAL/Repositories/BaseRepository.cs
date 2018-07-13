@@ -6,9 +6,9 @@ using System.Text;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
-    class BaseRepository<T> : IRepository<T> where T: IModel
+    public class BaseRepository<T> : IRepository<T> where T: IModel
     {
-        protected IList<T> ItemsList;
+        protected IList<T> ItemsList { get; set; }
 
         public virtual void Create(T item)
         {

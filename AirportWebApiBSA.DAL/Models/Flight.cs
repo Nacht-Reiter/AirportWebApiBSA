@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AirportWebApiBSA.DAL.Models
 {
-    class Flight : Interfaces.IModel
+     public class Flight : Interfaces.IModel
     {
         public int Id { get; set; }
         public string EntryPoint { get; set; }

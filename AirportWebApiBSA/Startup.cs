@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AirportWebApiBSA.Shared.DTOs;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +26,16 @@ namespace AirportWebApiBSA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSingleton<DAL.Interfaces.IUnitOfWork, DAL.Repositories.UnitOfWork> ();
+            services.AddAutoMapper();
+            services.AddTransient<BLL.Interfaces.IService<PilotDTO>, BLL.Services.PilotService>();
+            services.AddTransient<BLL.Interfaces.IService<StewardessDTO>, BLL.Services.StewardessService>();
+            services.AddTransient<BLL.Interfaces.IService<AirCraftDTO>, BLL.Services.AirCraftService>();
+            services.AddTransient<BLL.Interfaces.IService<AirCraftTypeDTO>, BLL.Services.AirCraftTypeService>();
+            services.AddTransient<BLL.Interfaces.IService<CrewDTO>, BLL.Services.CrewService>();
+            services.AddTransient<BLL.Interfaces.IService<DepartureDTO>, BLL.Services.DepartureService>();
+            services.AddTransient<BLL.Interfaces.IService<FlightDTO>, BLL.Services.FlightService>();
+            services.AddTransient<BLL.Interfaces.IService<TicketDTO>, BLL.Services.TicketService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
