@@ -41,14 +41,20 @@ namespace AirportWebApiBSA.WEB.Controllers
         [HttpPost]
         public void Post([FromBody]CrewDTO value)
         {
-            Service.Create(value);
+            if (ModelState.IsValid)
+            {
+                Service.Create(value);
+            }
         }
 
         // PUT: api/Crews/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]CrewDTO value)
         {
-            Service.Update(id, value);
+            if (ModelState.IsValid)
+            {
+                Service.Update(id, value);
+            }
         }
 
         // DELETE: api/ApiWithActions/5

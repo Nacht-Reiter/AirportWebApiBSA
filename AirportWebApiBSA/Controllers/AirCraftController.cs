@@ -41,14 +41,20 @@ namespace AirportWebApiBSA.WEB.Controllers
         [HttpPost]
         public void Post([FromBody]AirCraftDTO value)
         {
-            Service.Create(value);
+            if (ModelState.IsValid)
+            {
+                Service.Create(value);
+            }
         }
 
         // PUT: api/AirCrafts/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]AirCraftDTO value)
         {
-            Service.Update(id, value);
+            if (ModelState.IsValid)
+            {
+                Service.Update(id, value);
+            }
         }
 
         // DELETE: api/ApiWithActions/5

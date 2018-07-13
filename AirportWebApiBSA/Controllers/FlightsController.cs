@@ -41,7 +41,10 @@ namespace AirportWebApiBSA.WEB.Controllers
         [HttpPost]
         public void Post([FromBody]FlightDTO value)
         {
-            Service.Create(value);
+            if (ModelState.IsValid)
+            {
+                Service.Create(value);
+            }
         }
 
         // PUT: api/Flights/5
@@ -55,7 +58,10 @@ namespace AirportWebApiBSA.WEB.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            Service.Delete(id);
+            if (ModelState.IsValid)
+            {
+                Service.Delete(id);
+            }
         }
     }
 }
