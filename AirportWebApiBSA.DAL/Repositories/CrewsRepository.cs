@@ -8,37 +8,40 @@ namespace AirportWebApiBSA.DAL.Repositories
 {
     public class CrewsRepository: BaseRepository<Crew>
     {
-        private new IList<Crew> ItemsList = new List<Crew>
+        public CrewsRepository()
         {
-            new Crew
+            ItemsList = new List<Crew>
             {
-                Id = 1,
-                Pilot = new PilotsRepository().Get(1),
-                Stewardesses = new List<Stewardess>
+                new Crew
                 {
-                    new StewardessesRepository().Get(1),
-                    new StewardessesRepository().Get(2)
-                }
-            },
-            new Crew
-            {
-                Id = 2,
-                Pilot = new PilotsRepository().Get(2),
-                Stewardesses = new List<Stewardess>
+                    Id = 1,
+                    Pilot = new PilotsRepository().Get(1),
+                    Stewardesses = new List<Stewardess>
+                    {
+                        new StewardessesRepository().Get(1),
+                        new StewardessesRepository().Get(2)
+                    }
+                },
+                new Crew
                 {
-                    new StewardessesRepository().Get(3),
-                    new StewardessesRepository().Get(4)
-                }
-            },
-            new Crew
-            {
-                Id = 3,
-                Pilot = new PilotsRepository().Get(3),
-                Stewardesses = new List<Stewardess>
+                    Id = 2,
+                    Pilot = new PilotsRepository().Get(2),
+                    Stewardesses = new List<Stewardess>
+                    {
+                        new StewardessesRepository().Get(3),
+                        new StewardessesRepository().Get(4)
+                    }
+                },
+                new Crew
                 {
-                    new StewardessesRepository().Get(5)
+                    Id = 3,
+                    Pilot = new PilotsRepository().Get(3),
+                    Stewardesses = new List<Stewardess>
+                    {
+                        new StewardessesRepository().Get(5)
+                    }
                 }
-            }
-        };
+            };
+        }
     }
 }

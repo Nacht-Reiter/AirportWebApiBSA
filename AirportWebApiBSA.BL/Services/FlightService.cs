@@ -1,7 +1,6 @@
 ﻿using AirportWebApiBSA.DAL.Interfaces;
 using AirportWebApiBSA.DAL.Models;
 using AirportWebApiBSA.Shared.DTOs;
-using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,17 +11,15 @@ namespace AirportWebApiBSA.BLL.Services
     public class FlightService : Interfaces.IService<FlightDTO>
     {
         private IUnitOfWork UnitOfWork;
-        private IMapper Mapper;
 
-        public FlightService(IUnitOfWork unitOfWork, IMapper mapper)
+        public FlightService(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
-            Mapper = mapper;
         }
 
         public void Create(FlightDTO item)
         {
-            UnitOfWork.Flights.Create(Mapper.Map<FlightDTO, Flight>(item));
+            UnitOfWork.Flights.Create(MapFlight(item));
         }
 
         public void Delete(int id)
@@ -32,18 +29,43 @@ namespace AirportWebApiBSA.BLL.Services
 
         public FlightDTO Get(int id)
         {
-            return Mapper.Map<Flight, FlightDTO>(UnitOfWork.Flights.Get(id));
+            return MapFlightDTO(UnitOfWork.Flights.Get(id));
         }
 
         public IEnumerable<FlightDTO> GetAll()
         {
-            return UnitOfWork.Flights.GetAll().Select(p => Mapper.Map<Flight, FlightDTO>(p));
+            return UnitOfWork.Flights.GetAll().Select(p => MapFlightDTO(p));
         }
 
         public void Update(int id, FlightDTO item)
         {
             item.Id = id;
-            UnitOfWork.Flights.Update(Mapper.Map<FlightDTO, Flight>(item));
+            UnitOfWork.Flights.Update(MapFlight(item));
+        }
+
+        private FlightDTO MapFlightDTO(Flight item)
+        {
+            return new FlightDTO
+            {
+                Id = item.Id,
+                ArrivalTime = item.ArrivalTime,
+                DepartureTime = item.DepartureTime,
+                Destination = item.Destination,
+                EntryPoint = item.EntryPoint,
+                TicketsId = item.Tickets.Select(t => t.Id)
+            };
+        }
+        private Flight MapFlight(FlightDTO item)
+        {
+            return new Flight
+            {
+                Id = item.Id,
+                ArrivalTime = item.ArrivalTime,
+                DepartureTime = item.DepartureTime,
+                Destination = item.Destination,
+                EntryPoint = item.EntryPoint,
+                Tickets = item.TicketsId.Select(t => UnitOfWork.Tickets.Get(t))
+            };
         }
     }
 }

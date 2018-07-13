@@ -27,7 +27,7 @@ namespace AirportWebApiBSA
         {
             services.AddMvc();
             services.AddSingleton<DAL.Interfaces.IUnitOfWork, DAL.Repositories.UnitOfWork> ();
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
             services.AddTransient<BLL.Interfaces.IService<PilotDTO>, BLL.Services.PilotService>();
             services.AddTransient<BLL.Interfaces.IService<StewardessDTO>, BLL.Services.StewardessService>();
             services.AddTransient<BLL.Interfaces.IService<AirCraftDTO>, BLL.Services.AirCraftService>();

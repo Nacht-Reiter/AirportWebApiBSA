@@ -1,7 +1,6 @@
 ﻿using AirportWebApiBSA.DAL.Interfaces;
 using AirportWebApiBSA.DAL.Models;
 using AirportWebApiBSA.Shared.DTOs;
-using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,17 +11,15 @@ namespace AirportWebApiBSA.BLL.Services
     public class DepartureService : Interfaces.IService<DepartureDTO>
     {
         private IUnitOfWork UnitOfWork;
-        private IMapper Mapper;
 
-        public DepartureService(IUnitOfWork unitOfWork, IMapper mapper)
+        public DepartureService(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
-            Mapper = mapper;
         }
 
         public void Create(DepartureDTO item)
         {
-            UnitOfWork.Departures.Create(Mapper.Map<DepartureDTO, Departure>(item));
+            UnitOfWork.Departures.Create(MapDeparture(item));
         }
 
         public void Delete(int id)
@@ -32,18 +29,43 @@ namespace AirportWebApiBSA.BLL.Services
 
         public DepartureDTO Get(int id)
         {
-            return Mapper.Map<Departure, DepartureDTO>(UnitOfWork.Departures.Get(id));
+            return MapDepartureDTO(UnitOfWork.Departures.Get(id));
         }
 
         public IEnumerable<DepartureDTO> GetAll()
         {
-            return UnitOfWork.Departures.GetAll().Select(p => Mapper.Map<Departure, DepartureDTO>(p));
+            return UnitOfWork.Departures.GetAll().Select(p => MapDepartureDTO(p));
         }
 
         public void Update(int id, DepartureDTO item)
         {
             item.Id = id;
-            UnitOfWork.Departures.Update(Mapper.Map<DepartureDTO, Departure>(item));
+            UnitOfWork.Departures.Update(MapDeparture(item));
+        }
+
+        private DepartureDTO MapDepartureDTO(Departure item)
+        {
+            return new DepartureDTO
+            {
+                Id = item.Id,
+                AirCraftId = item.AirCraft.Id,
+                CrewId = item.Crew.Id,
+                DepartureDate = item.DepartureDate,
+                FlightNumber = item.FlightNumber
+            };
+        }
+
+        private Departure MapDeparture(DepartureDTO item)
+        {
+            return new Departure
+            {
+                Id = item.Id,
+                AirCraft = UnitOfWork.AirCrafts.Get(item.AirCraftId),
+                Crew = UnitOfWork.Crews.Get(item.CrewId),
+                DepartureDate = item.DepartureDate,
+                FlightNumber = item.FlightNumber
+
+            };
         }
     }
 }
