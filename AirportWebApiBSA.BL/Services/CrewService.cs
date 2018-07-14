@@ -20,11 +20,13 @@ namespace AirportWebApiBSA.BLL.Services
         public void Create(CrewDTO item)
         {
             UnitOfWork.Crews.Create(MapCrew(item));
+            UnitOfWork.Save();
         }
 
         public void Delete(int id)
         {
             UnitOfWork.Crews.Delete(id);
+            UnitOfWork.Save();
         }
 
         public CrewDTO Get(int id)
@@ -41,6 +43,7 @@ namespace AirportWebApiBSA.BLL.Services
         {
             item.Id = id;
             UnitOfWork.Crews.Update(MapCrew(item));
+            UnitOfWork.Save();
         }
 
         private CrewDTO MapCrewDTO(Crew item)

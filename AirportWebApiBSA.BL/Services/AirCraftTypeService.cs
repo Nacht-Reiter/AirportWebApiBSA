@@ -23,11 +23,13 @@ namespace AirportWebApiBSA.BLL.Services
         public void Create(AirCraftTypeDTO item)
         {
             UnitOfWork.AirCraftTypes.Create(Mapper.Map<AirCraftTypeDTO, AirCraftType>(item));
+            UnitOfWork.Save();
         }
 
         public void Delete(int id)
         {
             UnitOfWork.AirCraftTypes.Delete(id);
+            UnitOfWork.Save();
         }
 
         public AirCraftTypeDTO Get(int id)
@@ -44,6 +46,7 @@ namespace AirportWebApiBSA.BLL.Services
         {
             item.Id = id;
             UnitOfWork.AirCraftTypes.Update(Mapper.Map<AirCraftTypeDTO, AirCraftType>(item));
+            UnitOfWork.Save();
         }
     }
 }

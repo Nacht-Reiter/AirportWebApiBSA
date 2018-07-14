@@ -1,4 +1,7 @@
-﻿using AirportWebApiBSA.DAL.Models;
+﻿using AirportWebApiBSA.DAL.EF;
+using AirportWebApiBSA.DAL.Interfaces;
+using AirportWebApiBSA.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,37 +10,45 @@ using System.Text;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
-    public class PilotsRepository : BaseRepository<Pilot>
+    public class PilotsRepository : IRepository<Pilot>
     {
-        public PilotsRepository()
+        public PilotsRepository(AirportContext context)
         {
-            ItemsList = new List<Pilot>
-            {
-                new Pilot
-                {
-                    Id = 1,
-                    Name = "John",
-                    Surname = "Galt",
-                    Birthday = new DateTime(1985, 5, 15),
-                    Expirience = DateTime.Now - new DateTime(2005, 5, 15),
-                },
-                new Pilot
-                {
-                    Id = 2,
-                    Name = "Hank",
-                    Surname = "Rearden",
-                    Birthday = new DateTime(1975, 12, 7),
-                    Expirience = DateTime.Now - new DateTime(1998, 12, 7)
-                },
-                new Pilot
-                {
-                    Id = 3,
-                    Name = "Francisco",
-                    Surname = "d'Anconia",
-                    Birthday = new DateTime(1988, 9, 17),
-                    Expirience = DateTime.Now - new DateTime(2010, 9, 17)
-                }
-            };
+            this.db = context;
+        }
+        private AirportContext db;
+
+
+        public IEnumerable<Pilot> GetAll()
+        {
+            return db.Pilots;
+        }
+
+        public Pilot Get(int id)
+        {
+            return db.Pilots.Find(id);
+        }
+
+        public void Create(Pilot item)
+        {
+            db.Pilots.Add(item);
+        }
+
+        public void Update(Pilot item)
+        {
+            db.Entry(item).State = EntityState.Modified;
+        }
+
+        public IEnumerable<Pilot> Find(Func<Pilot, Boolean> predicate)
+        {
+            return db.Pilots.Where(predicate).ToList();
+        }
+
+        public void Delete(int id)
+        {
+            Pilot item = db.Pilots.Find(id);
+            if (item != null)
+                db.Pilots.Remove(item);
         }
     }
 }

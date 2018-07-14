@@ -25,11 +25,13 @@ namespace AirportWebApiBSA.BLL.Services
         public void Create(PilotDTO item)
         {
             UnitOfWork.Pilots.Create(Mapper.Map<PilotDTO, Pilot>(item));
+            UnitOfWork.Save();
         }
 
         public void Delete(int id)
         {
             UnitOfWork.Pilots.Delete(id);
+            UnitOfWork.Save();
         }
 
         public PilotDTO Get(int id)
@@ -46,6 +48,7 @@ namespace AirportWebApiBSA.BLL.Services
         {
             item.Id = id;
             UnitOfWork.Pilots.Update(Mapper.Map<PilotDTO, Pilot>(item));
+            UnitOfWork.Save();
         }
     }
 }

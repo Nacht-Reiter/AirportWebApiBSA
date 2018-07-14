@@ -23,11 +23,13 @@ namespace AirportWebApiBSA.BLL.Services
         public void Create(StewardessDTO item)
         {
             UnitOfWork.Stewardesses.Create(Mapper.Map<StewardessDTO, Stewardess>(item));
+            UnitOfWork.Save();
         }
 
         public void Delete(int id)
         {
             UnitOfWork.Stewardesses.Delete(id);
+            UnitOfWork.Save();
         }
 
         public StewardessDTO Get(int id)
@@ -44,6 +46,7 @@ namespace AirportWebApiBSA.BLL.Services
         {
             item.Id = id;
             UnitOfWork.Stewardesses.Update(Mapper.Map<StewardessDTO, Stewardess>(item));
+            UnitOfWork.Save();
         }
     }
 }

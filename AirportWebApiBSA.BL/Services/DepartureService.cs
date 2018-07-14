@@ -20,11 +20,13 @@ namespace AirportWebApiBSA.BLL.Services
         public void Create(DepartureDTO item)
         {
             UnitOfWork.Departures.Create(MapDeparture(item));
+            UnitOfWork.Save();
         }
 
         public void Delete(int id)
         {
             UnitOfWork.Departures.Delete(id);
+            UnitOfWork.Save();
         }
 
         public DepartureDTO Get(int id)
@@ -41,6 +43,7 @@ namespace AirportWebApiBSA.BLL.Services
         {
             item.Id = id;
             UnitOfWork.Departures.Update(MapDeparture(item));
+            UnitOfWork.Save();
         }
 
         private DepartureDTO MapDepartureDTO(Departure item)

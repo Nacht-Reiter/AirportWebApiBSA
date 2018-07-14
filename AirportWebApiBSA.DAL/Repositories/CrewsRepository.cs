@@ -1,47 +1,54 @@
-﻿using AirportWebApiBSA.DAL.Models;
+﻿using AirportWebApiBSA.DAL.EF;
+using AirportWebApiBSA.DAL.Interfaces;
+using AirportWebApiBSA.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
-    public class CrewsRepository: BaseRepository<Crew>
+    public class CrewsRepository : IRepository<Crew>
     {
-        public CrewsRepository()
+        public CrewsRepository(AirportContext context)
         {
-            ItemsList = new List<Crew>
-            {
-                new Crew
-                {
-                    Id = 1,
-                    Pilot = new PilotsRepository().Get(1),
-                    Stewardesses = new List<Stewardess>
-                    {
-                        new StewardessesRepository().Get(1),
-                        new StewardessesRepository().Get(2)
-                    }
-                },
-                new Crew
-                {
-                    Id = 2,
-                    Pilot = new PilotsRepository().Get(2),
-                    Stewardesses = new List<Stewardess>
-                    {
-                        new StewardessesRepository().Get(3),
-                        new StewardessesRepository().Get(4)
-                    }
-                },
-                new Crew
-                {
-                    Id = 3,
-                    Pilot = new PilotsRepository().Get(3),
-                    Stewardesses = new List<Stewardess>
-                    {
-                        new StewardessesRepository().Get(5)
-                    }
-                }
-            };
+            this.db = context;
+        }
+        private AirportContext db;
+
+
+        public IEnumerable<Crew> GetAll()
+        {
+            return db.Crews;
+        }
+
+        public Crew Get(int id)
+        {
+            return db.Crews.Find(id);
+        }
+
+        public void Create(Crew item)
+        {
+            db.Crews.Add(item);
+        }
+
+        public void Update(Crew item)
+        {
+            db.Entry(item).State = EntityState.Modified;
+        }
+
+        public IEnumerable<Crew> Find(Func<Crew, Boolean> predicate)
+        {
+            return db.Crews.Where(predicate).ToList();
+        }
+
+        public void Delete(int id)
+        {
+            Crew item = db.Crews.Find(id);
+            if (item != null)
+                db.Crews.Remove(item);
         }
     }
 }

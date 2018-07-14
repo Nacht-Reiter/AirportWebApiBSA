@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AirportWebApiBSA.DAL.EF;
 using AirportWebApiBSA.Shared.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,7 +28,7 @@ namespace AirportWebApiBSA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<DAL.Interfaces.IUnitOfWork, DAL.Repositories.UnitOfWork> ();
+            services.AddScoped<DAL.Interfaces.IUnitOfWork, DAL.Repositories.UnitOfWork> ();
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<BLL.Interfaces.IService<PilotDTO>, BLL.Services.PilotService>();
             services.AddTransient<BLL.Interfaces.IService<StewardessDTO>, BLL.Services.StewardessService>();
@@ -36,6 +38,7 @@ namespace AirportWebApiBSA
             services.AddTransient<BLL.Interfaces.IService<DepartureDTO>, BLL.Services.DepartureService>();
             services.AddTransient<BLL.Interfaces.IService<FlightDTO>, BLL.Services.FlightService>();
             services.AddTransient<BLL.Interfaces.IService<TicketDTO>, BLL.Services.TicketService>();
+            services.AddDbContext<AirportContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirportDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

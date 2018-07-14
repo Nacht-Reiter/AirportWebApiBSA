@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AirportWebApiBSA.DAL.EF;
 using AirportWebApiBSA.DAL.Interfaces;
 using AirportWebApiBSA.DAL.Models;
 
@@ -8,6 +9,7 @@ namespace AirportWebApiBSA.DAL.Repositories
 {
     public class UnitOfWork: IUnitOfWork
     {
+        private AirportContext db;
         private PilotsRepository pilotsRepository;
         private StewardessesRepository stewardessesRepository;
         private CrewsRepository crewsRepository;
@@ -17,12 +19,17 @@ namespace AirportWebApiBSA.DAL.Repositories
         private TicketRepository ticketsRepository;
         private FlightRepository flightsRepository;
 
+        public UnitOfWork(AirportContext db)
+        {
+            this.db = db;
+        }
+
         public IRepository<Pilot> Pilots
         {
             get
             {
                 if (pilotsRepository == null)
-                    pilotsRepository = new PilotsRepository();
+                    pilotsRepository = new PilotsRepository(db);
                 return pilotsRepository;
             } 
         }
@@ -32,7 +39,7 @@ namespace AirportWebApiBSA.DAL.Repositories
             get
             {
                 if (stewardessesRepository == null)
-                    stewardessesRepository = new StewardessesRepository();
+                    stewardessesRepository = new StewardessesRepository(db);
                 return stewardessesRepository;
             }
         }
@@ -42,7 +49,7 @@ namespace AirportWebApiBSA.DAL.Repositories
             get
             {
                 if (crewsRepository == null)
-                    crewsRepository = new CrewsRepository();
+                    crewsRepository = new CrewsRepository(db);
                 return crewsRepository;
             }
         }
@@ -52,7 +59,7 @@ namespace AirportWebApiBSA.DAL.Repositories
             get
             {
                 if (airCraftRepository == null)
-                    airCraftRepository = new AirCraftRepository();
+                    airCraftRepository = new AirCraftRepository(db);
                 return airCraftRepository;
             }
         }
@@ -62,7 +69,7 @@ namespace AirportWebApiBSA.DAL.Repositories
             get
             {
                 if (airCraftTypesRepository == null)
-                    airCraftTypesRepository = new AirCraftTypeRepository();
+                    airCraftTypesRepository = new AirCraftTypeRepository(db);
                 return airCraftTypesRepository;
             }
         }
@@ -72,7 +79,7 @@ namespace AirportWebApiBSA.DAL.Repositories
             get
             {
                 if (departuresRepository == null)
-                    departuresRepository = new DepartureRepository();
+                    departuresRepository = new DepartureRepository(db);
                 return departuresRepository;
             }
         }
@@ -82,7 +89,7 @@ namespace AirportWebApiBSA.DAL.Repositories
             get
             {
                 if (ticketsRepository == null)
-                    ticketsRepository = new TicketRepository();
+                    ticketsRepository = new TicketRepository(db);
                 return ticketsRepository;
             }
         }
@@ -92,7 +99,7 @@ namespace AirportWebApiBSA.DAL.Repositories
             get
             {
                 if (flightsRepository == null)
-                    flightsRepository = new FlightRepository();
+                    flightsRepository = new FlightRepository(db);
                 return flightsRepository;
             }
         }
@@ -101,7 +108,7 @@ namespace AirportWebApiBSA.DAL.Repositories
 
         public void Save()
         {
-            
+            db.SaveChanges();
         }
  
 
