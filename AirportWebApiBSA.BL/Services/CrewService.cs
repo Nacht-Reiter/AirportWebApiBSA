@@ -61,7 +61,7 @@ namespace AirportWebApiBSA.BLL.Services
             {
                 Id = item.Id,
                 Pilot = UnitOfWork.Pilots.Get(item.PilotId),
-                Stewardesses = item.StewardessesId.Select(s => UnitOfWork.Stewardesses.Get(s))
+                Stewardesses = item.StewardessesId.Select(s => UnitOfWork.Stewardesses.Get(s)).ToList()
             };
         }
     }

@@ -110,7 +110,6 @@ namespace AirportWebApiBSA.DAL.Repositories
         {
             db.SaveChanges();
         }
- 
 
     }
 }
