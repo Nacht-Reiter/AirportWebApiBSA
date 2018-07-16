@@ -20,7 +20,10 @@ namespace AirportWebApiBSA.DAL.EF
         public AirportContext(DbContextOptions<AirportContext> options)
             : base(options)
         {
+            
+            
             Database.EnsureCreated();
+
         }
     }
 }

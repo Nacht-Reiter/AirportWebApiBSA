@@ -26,7 +26,7 @@ namespace AirportWebApiBSA.DAL.Repositories
 
         public AirCraft Get(int id)
         {
-            return db.AirCrafts.Include(a => a.Id).FirstOrDefault(p => p.Id == id);
+            return db.AirCrafts.Include(a => a.AirCraftType).FirstOrDefault(p => p.Id == id);
         }
 
         public void Create(AirCraft item)

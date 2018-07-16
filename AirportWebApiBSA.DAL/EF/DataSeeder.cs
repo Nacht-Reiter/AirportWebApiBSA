@@ -1,6 +1,7 @@
 ﻿using AirportWebApiBSA.DAL.EF;
 using AirportWebApiBSA.DAL.Models;
 using AirportWebApiBSA.DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ public class DataSeeder
         var context = serviceProvider.GetRequiredService<AirportContext>();
         context.Database.EnsureCreated();
         SeedPilots(context);
-        SeedStewardesses(context);
+        
+        
         SeedTickets(context);
         SeedCrews(context);
+        SeedStewardesses(context);
         SeedAirCraftTypes(context);
         SeedAirCrafts(context);
         SeedFlights(context);
@@ -62,32 +65,38 @@ public class DataSeeder
                 {
                     Name = "Maria",
                     Surname = "Hernandez",
-                    Birthday = new DateTime(1996, 7, 11)
+                    Birthday = new DateTime(1996, 7, 11),
+                    CrewId = 1
+                    
 
                 },
                 new Stewardess
                 {
                     Name = "Sarah",
                     Surname = "Williams",
-                    Birthday = new DateTime(1995, 12, 7)
+                    Birthday = new DateTime(1995, 12, 7),
+                    CrewId = 1
                 },
                 new Stewardess
                 {
                     Name = "Ann",
                     Surname = "Jones",
-                    Birthday = new DateTime(1988, 9, 17)
+                    Birthday = new DateTime(1988, 9, 17),
+                    CrewId = 2
                 },
                 new Stewardess
                 {
                     Name = "Nancy",
                     Surname = "Taylor",
-                    Birthday = new DateTime(1997, 3, 4)
+                    Birthday = new DateTime(1997, 3, 4),
+                    CrewId = 2
                 },
                 new Stewardess
                 {
                     Name = "Catherine",
                     Surname = "Clark",
-                    Birthday = new DateTime(1992, 1, 28)
+                    Birthday = new DateTime(1992, 1, 28),
+                    CrewId = 3
                 }
             };
             context.AddRange(ItemsList);
@@ -241,28 +250,17 @@ public class DataSeeder
                 new Crew
                 {
                     Pilot = new PilotsRepository(context).Get(1),
-                    Stewardesses = new List<Stewardess>
-                    {
-                        new StewardessesRepository(context).Get(1),
-                        new StewardessesRepository(context).Get(2)
-                    }
+                    
                 },
                 new Crew
                 {
                     Pilot = new PilotsRepository(context).Get(2),
-                    Stewardesses = new List<Stewardess>
-                    {
-                        new StewardessesRepository(context).Get(3),
-                        new StewardessesRepository(context).Get(4)
-                    }
+                    
                 },
                 new Crew
                 {
                     Pilot = new PilotsRepository(context).Get(3),
-                    Stewardesses = new List<Stewardess>
-                    {
-                        new StewardessesRepository(context).Get(5)
-                    }
+                    
                 }
             };
             context.AddRange(ItemsList);

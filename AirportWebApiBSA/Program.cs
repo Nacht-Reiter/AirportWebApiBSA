@@ -21,11 +21,7 @@ namespace AirportWebApiBSA
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<AirportContext>();
-
-                    DataSeeder.Seed(services);
-
-
+                DataSeeder.Seed(services);
             }
 
             host.Run();
