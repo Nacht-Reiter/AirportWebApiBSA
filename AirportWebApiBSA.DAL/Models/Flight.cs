@@ -13,7 +13,11 @@ namespace AirportWebApiBSA.DAL.Models
         public DateTime DepartureTime { get; set; }
         public string Destination { get; set; }
         public DateTime ArrivalTime { get; set; }
-        public IEnumerable<Ticket> Tickets { get; set; }
+        public virtual IEnumerable<Ticket> Tickets { get; set; }
 
+        public Flight()
+        {
+            Tickets = new List<Ticket>();
+        }
     }
 }

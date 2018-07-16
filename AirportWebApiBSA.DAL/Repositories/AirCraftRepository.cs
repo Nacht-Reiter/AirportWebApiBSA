@@ -21,12 +21,12 @@ namespace AirportWebApiBSA.DAL.Repositories
 
         public IEnumerable<AirCraft> GetAll()
         {
-            return db.AirCrafts;
+            return db.AirCrafts.Include(a => a.Id);
         }
 
         public AirCraft Get(int id)
         {
-            return db.AirCrafts.Find(id);
+            return db.AirCrafts.Include(a => a.Id).FirstOrDefault(p => p.Id == id);
         }
 
         public void Create(AirCraft item)

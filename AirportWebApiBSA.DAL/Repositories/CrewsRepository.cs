@@ -21,12 +21,12 @@ namespace AirportWebApiBSA.DAL.Repositories
 
         public IEnumerable<Crew> GetAll()
         {
-            return db.Crews;
+            return db.Crews.Include(s => s.Pilot).Include(s => s.Stewardesses);
         }
 
         public Crew Get(int id)
         {
-            return db.Crews.Find(id);
+            return db.Crews.Include(s => s.Pilot).Include(s => s.Stewardesses).FirstOrDefault(p => p.Id == id);
         }
 
         public void Create(Crew item)
@@ -41,7 +41,7 @@ namespace AirportWebApiBSA.DAL.Repositories
 
         public IEnumerable<Crew> Find(Func<Crew, Boolean> predicate)
         {
-            return db.Crews.Where(predicate).ToList();
+            return db.Crews.Include(s => s.Pilot).Include(s => s.Stewardesses).Where(predicate).ToList();
         }
 
         public void Delete(int id)

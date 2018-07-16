@@ -21,12 +21,12 @@ namespace AirportWebApiBSA.DAL.Repositories
 
         public IEnumerable<Flight> GetAll()
         {
-            return db.Flights;
+            return db.Flights.Include(s => s.Tickets);
         }
 
         public Flight Get(int id)
         {
-            return db.Flights.Find(id);
+            return db.Flights.Include(s => s.Tickets).FirstOrDefault(f => f.Id == id);
         }
 
         public void Create(Flight item)

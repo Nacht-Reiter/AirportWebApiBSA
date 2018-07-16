@@ -51,7 +51,7 @@ namespace AirportWebApiBSA.BLL.Services
             return new CrewDTO
             {
                 Id = item.Id,
-                PilotId = item.Pilot.Id,
+                PilotId = item.PilotId,
                 StewardessesId = item.Stewardesses.Select(s => s.Id)
             };
         }
