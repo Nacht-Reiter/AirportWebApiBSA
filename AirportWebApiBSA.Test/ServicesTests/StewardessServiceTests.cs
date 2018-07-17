@@ -56,16 +56,16 @@ namespace AirportWebApiBSA.Test.ServicesTests
             //Act
             service.Create(new StewardessDTO
             {
-                Name = "John",
-                Surname = "Galt",
-                Birthday = new DateTime(1985, 5, 15)
+                Name = "Maria",
+                Surname = "Hernandez",
+                Birthday = new DateTime(1996, 7, 11)
             });
             //Accept
             Assert.IsTrue(CustomAsserts.AreEqualByJson(Stewardess, new Stewardess
             {
-                Name = "John",
-                Surname = "Galt",
-                Birthday = new DateTime(1985, 5, 15)
+                Name = "Maria",
+                Surname = "Hernandez",
+                Birthday = new DateTime(1996, 7, 11)
             }));
         }
         [Test]
@@ -76,9 +76,9 @@ namespace AirportWebApiBSA.Test.ServicesTests
             Stewardess Stewardess = new Stewardess
             {
                 Id = 1,
-                Name = "John",
-                Surname = "Galt",
-                Birthday = new DateTime(1985, 5, 15)
+                Name = "Maria",
+                Surname = "Hernandez",
+                Birthday = new DateTime(1996, 7, 11)
             };
             mockStewardessRepository.Setup(a => a.Update(It.IsNotNull<Stewardess>())).Callback((Stewardess a) => Stewardess = a);
             var mockUOW = new Mock<IUnitOfWork>();
@@ -88,17 +88,17 @@ namespace AirportWebApiBSA.Test.ServicesTests
             service.Update(1, new StewardessDTO
             {
                 Id = 1,
-                Name = "John",
-                Surname = "Galt",
-                Birthday = new DateTime(1989, 5, 15)
+                Name = "Maria",
+                Surname = "Hernandez",
+                Birthday = new DateTime(1996, 7, 11)
             });
             //Accept
             Assert.IsTrue(CustomAsserts.AreEqualByJson(Stewardess, new Stewardess
             {
                 Id = 1,
-                Name = "John",
-                Surname = "Galt",
-                Birthday = new DateTime(1989, 5, 15)
+                Name = "Maria",
+                Surname = "Hernandez",
+                Birthday = new DateTime(1996, 7, 11)
             }));
         }
 
@@ -110,9 +110,9 @@ namespace AirportWebApiBSA.Test.ServicesTests
 
             Stewardess Stewardess = new Stewardess
             {
-                Name = "John",
-                Surname = "Galt",
-                Birthday = new DateTime(1985, 5, 15)
+                Name = "Maria",
+                Surname = "Hernandez",
+                Birthday = new DateTime(1996, 7, 11)
             };
             mockStewardessRepository.Setup(a => a.Delete(1)).Callback(() => Stewardess = null);
             var mockUOW = new Mock<IUnitOfWork>();
