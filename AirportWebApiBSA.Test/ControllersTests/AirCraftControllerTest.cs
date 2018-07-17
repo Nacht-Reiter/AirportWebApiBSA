@@ -59,7 +59,7 @@ namespace AirportWebApiBSA.Test.ControllersTests
             }))));
         }
         [Test]
-        public void CreateWhenGivenIdReturnsItemDTO()
+        public void PostWhenGivenIdReturnsItemDTO()
         {
             //Arange
             var mockAirCraftTypeRepository = new Mock<IRepository<AirCraftType>>();
@@ -99,6 +99,86 @@ namespace AirportWebApiBSA.Test.ControllersTests
                 Age = airCraft.Age
             }));
         }
-
+        [Test]
+        public void PutWhenGivenIdReturnsItemDTO()
+        {
+            //Arange
+            var mockAirCraftTypeRepository = new Mock<IRepository<AirCraftType>>();
+            mockAirCraftTypeRepository.Setup(a => a.Get(1))
+                .Returns(new AirCraftType
+                {
+                    Id = 1,
+                    Model = "Concord",
+                    PassengersCapacity = 75,
+                    CargoCapacity = 300
+                });
+            var mockAirCraftRepository = new Mock<IRepository<AirCraft>>();
+            AirCraft airCraft = new AirCraft
+            {
+                Id = 1,
+                Name = "DF-24",
+                AirCraftTypeId = 1,
+                Manufactured = new DateTime(1990, 12, 01),
+                Age = DateTime.Now - new DateTime(1990, 12, 01)
+            };
+            mockAirCraftRepository.Setup(a => a.Update(It.IsNotNull<AirCraft>())).Callback((AirCraft a) => airCraft = a);
+            var mockUOW = new Mock<IUnitOfWork>();
+            mockUOW.Setup(a => a.AirCrafts).Returns(mockAirCraftRepository.Object);
+            mockUOW.Setup(a => a.AirCraftTypes).Returns(mockAirCraftTypeRepository.Object);
+            var service = new AirCraftService(mockUOW.Object, new Mapper(new MapperConfiguration((cfg => cfg.AddProfile(new MappingProfile(mockUOW.Object))))));
+            var controller = new AirCraftController(service);
+            //Act
+            controller.Put(1, new AirCraftDTO
+            {
+                Id = 1,
+                Name = "DF-23",
+                AirCraftTypeId = 1,
+                Manufactured = new DateTime(1990, 12, 01),
+                Age = DateTime.Now - new DateTime(1990, 12, 01)
+            });
+            //Accept
+            Assert.IsTrue(CustomAsserts.AreEqualByJson(airCraft, new AirCraft
+            {
+                Id = 1,
+                AirCraftTypeId = 1,
+                Name = "DF-23",
+                AirCraftType = mockAirCraftTypeRepository.Object.Get(1),
+                Manufactured = new DateTime(1990, 12, 01),
+                Age = airCraft.Age
+            }));
+        }
+        [Test]
+        public void DeleteWhenGivenIdReturnsItemDTO()
+        {
+            //Arange
+            var mockAirCraftTypeRepository = new Mock<IRepository<AirCraftType>>();
+            mockAirCraftTypeRepository.Setup(a => a.Get(1))
+                .Returns(new AirCraftType
+                {
+                    Id = 1,
+                    Model = "Concord",
+                    PassengersCapacity = 75,
+                    CargoCapacity = 300
+                });
+            var mockAirCraftRepository = new Mock<IRepository<AirCraft>>();
+            AirCraft airCraft = new AirCraft
+            {
+                Id = 1,
+                Name = "DF-24",
+                AirCraftTypeId = 1,
+                Manufactured = new DateTime(1990, 12, 01),
+                Age = DateTime.Now - new DateTime(1990, 12, 01)
+            };
+            mockAirCraftRepository.Setup(a => a.Delete(1)).Callback(() => airCraft = null);
+            var mockUOW = new Mock<IUnitOfWork>();
+            mockUOW.Setup(a => a.AirCrafts).Returns(mockAirCraftRepository.Object);
+            mockUOW.Setup(a => a.AirCraftTypes).Returns(mockAirCraftTypeRepository.Object);
+            var service = new AirCraftService(mockUOW.Object, new Mapper(new MapperConfiguration((cfg => cfg.AddProfile(new MappingProfile(mockUOW.Object))))));
+            var controller = new AirCraftController(service);
+            //Act
+            controller.Delete(1);
+            //Accept
+            Assert.IsNull(airCraft);
+        }
     }
 }
