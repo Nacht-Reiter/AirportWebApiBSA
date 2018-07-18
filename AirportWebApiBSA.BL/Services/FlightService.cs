@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace AirportWebApiBSA.BLL.Services
 {
-    public class FlightService : IService<FlightDTO>
+    public class FlightService : IFlightService
     {
         private IUnitOfWork UnitOfWork;
 
@@ -34,13 +34,13 @@ namespace AirportWebApiBSA.BLL.Services
 
         public async Task<FlightDTO> Get(int id)
         {
-            return await GetWithDelay(id);
+            return MapFlightDTO(await UnitOfWork.Flights.Get(id));
         }
 
-        public Task<FlightDTO> GetWithDelay(int id)
+        public Task<FlightDTO> GetWithDelay(int id, int delay)
         {
             var tcs = new TaskCompletionSource<FlightDTO>();
-            Timer timer = new Timer(5000);
+            Timer timer = new Timer(delay);
             timer.AutoReset = false;
             timer.Elapsed += new ElapsedEventHandler(async (object sender, ElapsedEventArgs e) => tcs.SetResult(MapFlightDTO(await UnitOfWork.Flights.Get(id))));
             timer.Start();

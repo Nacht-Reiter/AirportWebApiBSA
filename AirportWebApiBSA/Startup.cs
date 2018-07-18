@@ -37,7 +37,7 @@ namespace AirportWebApiBSA
             services.AddTransient<IService<AirCraftTypeDTO>, BLL.Services.AirCraftTypeService>();
             services.AddTransient<ICrewService, BLL.Services.CrewService>();
             services.AddTransient<IService<DepartureDTO>, BLL.Services.DepartureService>();
-            services.AddTransient<IService<FlightDTO>, BLL.Services.FlightService>();
+            services.AddTransient<IFlightService, BLL.Services.FlightService>();
             services.AddTransient<IService<TicketDTO>, BLL.Services.TicketService>();
             services.AddDbContext<AirportContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirportDatabase")));
         }

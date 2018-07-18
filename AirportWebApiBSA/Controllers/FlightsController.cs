@@ -15,9 +15,9 @@ namespace AirportWebApiBSA.WEB.Controllers
     [Route("api/Flights")]
     public class FlightsController : Controller
     {
-        private IService<FlightDTO> Service;
+        private IFlightService Service;
 
-        public FlightsController(IService<FlightDTO> service)
+        public FlightsController(IFlightService service)
         {
             Service = service;
         }
@@ -35,6 +35,12 @@ namespace AirportWebApiBSA.WEB.Controllers
         public async Task<JsonResult> Get(int id)
         {
             return Json(await Service.Get(id));
+        }
+        // GET: api/Flights/Delay/5
+        [HttpGet("Delay/{id}")]
+        public async Task<JsonResult> GetWithDelay(int id)
+        {
+            return Json(await Service.GetWithDelay(id, 5000));
         }
 
         // POST: api/Flights

@@ -59,11 +59,11 @@ namespace AirportWebApiBSA.BLL.Services
 
         public async Task RemoteCrewToCSV(IEnumerable<CrewRemoteDTO> Items)
         {
-            using (TextWriter writer = File.CreateText($"{DateTime.Now.Year}{DateTime.Now.Month}{DateTime.Now.Day}{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}.csv"))
+            using (TextWriter writer = File.CreateText($"{DateTime.Now.Year}_{DateTime.Now.Month}_{DateTime.Now.Day}_{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.csv"))
             {
                 foreach(var i in Items)
                 {
-                    await writer.WriteAsync($"{i.Id},{i.PilotId},{i.Stewardess.Count()}\n");
+                    await writer.WriteAsync($"{i.Id},{i.Pilot.ElementAt(0).FirstName},{i.Pilot.ElementAt(0).LastName},{i.Stewardess.Count()}\n");
                 }
             }
         }

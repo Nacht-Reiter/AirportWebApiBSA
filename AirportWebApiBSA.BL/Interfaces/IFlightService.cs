@@ -8,6 +8,6 @@ namespace AirportWebApiBSA.BLL.Interfaces
 {
     public interface IFlightService: IService<FlightDTO>
     {
-        Task<FlightDTO> GetWithDelay(int id);
+        Task<FlightDTO> GetWithDelay(int id, int delay);
     }
 }
