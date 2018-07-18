@@ -15,14 +15,14 @@ public class DataSeeder
         var context = serviceProvider.GetRequiredService<AirportContext>();
         context.Database.EnsureCreated();
         await SeedPilots(context);
-            
-        SeedTickets(context).Wait();
-        SeedCrews(context).Wait();
-        SeedStewardesses(context).Wait();
-        SeedAirCraftTypes(context).Wait();
-        SeedAirCrafts(context).Wait();
-        SeedFlights(context).Wait();
-        SeedDepartures(context).Wait();
+
+        await SeedTickets(context);
+        await SeedCrews(context);
+        await SeedStewardesses(context);
+        await SeedAirCraftTypes(context);
+        await SeedAirCrafts(context);
+        await SeedFlights(context);
+        await SeedDepartures(context);
 
     }
 
@@ -54,7 +54,7 @@ public class DataSeeder
                     Expirience = 2
                 }
             };
-            await context.AddRangeAsync(ItemsList);
+            context.AddRange(ItemsList);
             context.SaveChanges();
         }
 
@@ -104,7 +104,7 @@ public class DataSeeder
                     CrewId = 3
                 }
             };
-            await context.AddRangeAsync(ItemsList);
+            context.AddRange(ItemsList);
             context.SaveChanges();
 
         }
@@ -124,8 +124,8 @@ public class DataSeeder
                     Destination = "New-York",
                     Tickets = new List<Ticket>
                     {
-                        await new TicketRepository(context).Get(1),
-                        await new TicketRepository(context).Get(2)
+                        new TicketRepository(context).Get(1).Result,
+                        new TicketRepository(context).Get(2).Result
                     }
                 },
                 new Flight
@@ -136,9 +136,9 @@ public class DataSeeder
                     Destination = "Munich",
                     Tickets = new List<Ticket>
                     {
-                        await new TicketRepository(context).Get(3),
-                        await new TicketRepository(context).Get(4),
-                        await new TicketRepository(context).Get(5)
+                        new TicketRepository(context).Get(3).Result,
+                        new TicketRepository(context).Get(4).Result,
+                        new TicketRepository(context).Get(5).Result
                     }
                 },
                 new Flight
@@ -149,13 +149,13 @@ public class DataSeeder
                     Destination = "Tanger",
                     Tickets = new List<Ticket>
                     {
-                        await new TicketRepository(context).Get(6),
-                        await new TicketRepository(context).Get(7),
-                        await new TicketRepository(context).Get(8)
+                        new TicketRepository(context).Get(6).Result,
+                        new TicketRepository(context).Get(7).Result,
+                        new TicketRepository(context).Get(8).Result
                     }
                 }
             };
-            await context.AddRangeAsync(ItemsList);
+            context.AddRange(ItemsList);
             context.SaveChanges();
         }
 
@@ -170,25 +170,25 @@ public class DataSeeder
                 {
                     FlightNumber = 1,
                     DepartureDate = new DateTime(2018, 07, 24),
-                    Crew = await new CrewsRepository(context).Get(1),
-                    AirCraft = await new AirCraftRepository(context).Get(1)
+                    Crew = new CrewsRepository(context).Get(1).Result,
+                    AirCraft = new AirCraftRepository(context).Get(1).Result
                 },
                 new Departure
                 {
                     FlightNumber = 2,
                     DepartureDate = new DateTime(2018, 07, 25),
-                    Crew = await new CrewsRepository(context).Get(2),
-                    AirCraft = await new AirCraftRepository(context).Get(2)
+                    Crew = new CrewsRepository(context).Get(2).Result,
+                    AirCraft = new AirCraftRepository(context).Get(2).Result
                 },
                 new Departure
                 {
                     FlightNumber = 3,
                     DepartureDate = new DateTime(2018, 07, 24),
-                    Crew = await new CrewsRepository(context).Get(3),
-                    AirCraft = await new AirCraftRepository(context).Get(3)
+                    Crew = new CrewsRepository(context).Get(3).Result,
+                    AirCraft = new AirCraftRepository(context).Get(3).Result
                 }
             };
-            await context.AddRangeAsync(ItemsList);
+            context.AddRange(ItemsList);
             context.SaveChanges();
         }
 
@@ -202,28 +202,27 @@ public class DataSeeder
                 new AirCraft
                 {
                     Name = "DF-23",
-                    AirCraftType = await new AirCraftTypeRepository(context).Get(1),
+                    AirCraftType = new AirCraftTypeRepository(context).Get(1).Result,
                     Manufactured = new DateTime(1990, 12, 01),
                     Age = 28
                 },
                 new AirCraft
                 {
                     Name = "DN-48",
-                    AirCraftType = await new AirCraftTypeRepository(context).Get(2),
+                    AirCraftType = new AirCraftTypeRepository(context).Get(2).Result,
                     Manufactured = new DateTime(2012, 4, 18),
                     Age = 6
                 },
                 new AirCraft
                 {
                     Name = "KL-18",
-                    AirCraftType = await new AirCraftTypeRepository(context).Get(2),
+                    AirCraftType = new AirCraftTypeRepository(context).Get(2).Result,
                     Manufactured = new DateTime(2011, 9, 8),
                     Age = 7
                 }
             };
-            await context.AddRangeAsync(ItemsList);
+            context.AddRange(ItemsList);
             context.SaveChanges();
-            context.Dispose();
         }
 
     }
@@ -246,7 +245,7 @@ public class DataSeeder
                     CargoCapacity = 2000
                 }
             };
-            await context.AddRangeAsync(ItemsList);
+            context.AddRange(ItemsList);
             context.SaveChanges();
         }
 
@@ -325,7 +324,7 @@ public class DataSeeder
                     Price = 7500
                 }
             };
-            await context.AddRangeAsync(ItemsList);
+            context.AddRange(ItemsList);
             context.SaveChanges();
         }
 
