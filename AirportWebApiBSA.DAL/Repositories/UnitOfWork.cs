@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using AirportWebApiBSA.DAL.EF;
 using AirportWebApiBSA.DAL.Interfaces;
 using AirportWebApiBSA.DAL.Models;
@@ -106,9 +107,9 @@ namespace AirportWebApiBSA.DAL.Repositories
 
 
 
-        public void Save()
+        public async Task Save()
         {
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
     }

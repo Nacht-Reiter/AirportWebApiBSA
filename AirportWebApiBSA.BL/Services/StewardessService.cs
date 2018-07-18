@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.BLL.Services
 {
@@ -20,26 +21,27 @@ namespace AirportWebApiBSA.BLL.Services
             Mapper = mapper;
         }
 
-        public void Create(StewardessDTO item)
+        public async Task Create(StewardessDTO item)
         {
-            UnitOfWork.Stewardesses.Create(Mapper.Map<StewardessDTO, Stewardess>(item));
-            UnitOfWork.Save();
+            await UnitOfWork.Stewardesses.Create(Mapper.Map<StewardessDTO, Stewardess>(item));
+            await UnitOfWork.Save();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            UnitOfWork.Stewardesses.Delete(id);
-            UnitOfWork.Save();
+            await UnitOfWork.Stewardesses.Delete(id);
+            await UnitOfWork.Save();
         }
 
-        public StewardessDTO Get(int id)
+        public async Task<StewardessDTO> Get(int id)
         {
-            return Mapper.Map<Stewardess, StewardessDTO>(UnitOfWork.Stewardesses.Get(id));
+            return Mapper.Map<Stewardess, StewardessDTO>(await UnitOfWork.Stewardesses.Get(id));
         }
 
-        public IEnumerable<StewardessDTO> GetAll()
+        public async Task<IEnumerable<StewardessDTO>> GetAll()
         {
-            return UnitOfWork.Stewardesses.GetAll().Select(p => Mapper.Map<Stewardess, StewardessDTO>(p));
+            var temp = await UnitOfWork.Stewardesses.GetAll();
+            return temp.Select(p => Mapper.Map<Stewardess, StewardessDTO>(p));
         }
 
         public void Update(int id, StewardessDTO item)

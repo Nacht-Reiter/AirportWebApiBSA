@@ -25,25 +25,25 @@ namespace AirportWebApiBSA.WEB.Controllers
 
         // GET: api/Departures
         [HttpGet]
-        public JsonResult Get()
+        public async Task<JsonResult> Get()
         {
-            return Json(Service.GetAll());
+            return Json(await Service.GetAll());
         }
 
         // GET: api/Departures/5
         [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        public async Task<JsonResult> Get(int id)
         {
-            return Json(Service.Get(id));
+            return Json(await Service.Get(id));
         }
 
         // POST: api/Departures
         [HttpPost]
-        public void Post([FromBody]DepartureDTO value)
+        public async Task Post([FromBody]DepartureDTO value)
         {
             if (ModelState.IsValid)
             {
-                Service.Create(value);
+                await Service.Create(value);
             }
         }
 
@@ -56,11 +56,11 @@ namespace AirportWebApiBSA.WEB.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             if (ModelState.IsValid)
             {
-                Service.Delete(id);
+                await Service.Delete(id);
             }
         }
     }

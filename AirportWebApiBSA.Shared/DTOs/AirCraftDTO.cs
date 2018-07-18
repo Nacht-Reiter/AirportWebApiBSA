@@ -10,6 +10,6 @@ namespace AirportWebApiBSA.Shared.DTOs
         public string Name { get; set; }
         public int AirCraftTypeId { get; set; }
         public DateTime Manufactured { get; set; }
-        public TimeSpan Age { get; set; }
+        public int Age { get; set; }
     }
 }

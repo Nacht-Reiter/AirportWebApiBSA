@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace AirportWebApiBSA.DAL.Models
@@ -8,6 +9,7 @@ namespace AirportWebApiBSA.DAL.Models
      public class Flight : Interfaces.IModel
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string EntryPoint { get; set; }
         public DateTime DepartureTime { get; set; }

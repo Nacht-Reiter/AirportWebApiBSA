@@ -15,35 +15,41 @@ namespace AirportWebApiBSA.WEB.Controllers
     [Route("api/Crews")]
     public class CrewsController : Controller
     {
-        private IService<CrewDTO> Service;
+        private ICrewService Service;
 
-        public CrewsController(IService<CrewDTO> service)
+        public CrewsController(ICrewService service)
         {
             Service = service;
         }
 
-
         // GET: api/Crews
         [HttpGet]
-        public JsonResult Get()
+        public async Task<JsonResult> Get()
         {
-            return Json(Service.GetAll());
+            return Json(await Service.GetAll());
         }
 
         // GET: api/Crews/5
         [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        public async Task<JsonResult> Get(int id)
         {
-            return Json(Service.Get(id));
+            return Json(await Service.Get(id));
+        }
+
+        // GET: api/Crews/RemoteAPI
+        [HttpGet("RemoteAPI")]
+        public async Task ReadFromRemoteAPI()
+        {
+            await Service.ReadFromRemoterAPI("http://5b128555d50a5c0014ef1204.mockapi.io/crew");
         }
 
         // POST: api/Crews
         [HttpPost]
-        public void Post([FromBody]CrewDTO value)
+        public async Task Post([FromBody]CrewDTO value)
         {
             if (ModelState.IsValid)
             {
-                Service.Create(value);
+                await Service.Create(value);
             }
         }
 
@@ -59,9 +65,9 @@ namespace AirportWebApiBSA.WEB.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            Service.Delete(id);
+            await Service.Delete(id);
         }
     }
 }

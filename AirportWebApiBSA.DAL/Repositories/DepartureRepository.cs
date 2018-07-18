@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
@@ -19,19 +20,19 @@ namespace AirportWebApiBSA.DAL.Repositories
         private AirportContext db;
 
 
-        public IEnumerable<Departure> GetAll()
+        public async Task<IEnumerable<Departure>> GetAll()
         {
-            return db.Departures.Include(d => d.AirCraft).Include(d => d.Crew);
+            return await db.Departures.Include(d => d.AirCraft).Include(d => d.Crew).ToListAsync();
         }
 
-        public Departure Get(int id)
+        public async Task<Departure> Get(int id)
         {
-            return db.Departures.Include(d => d.AirCraft).Include(d => d.Crew).FirstOrDefault(d => d.Id == id);
+            return await db.Departures.Include(d => d.AirCraft).Include(d => d.Crew).FirstOrDefaultAsync(d => d.Id == id);
         }
 
-        public void Create(Departure item)
+        public async Task Create(Departure item)
         {
-            db.Departures.Add(item);
+            await db.Departures.AddAsync(item);
         }
 
         public void Update(Departure item)
@@ -39,14 +40,9 @@ namespace AirportWebApiBSA.DAL.Repositories
             db.Entry(item).State = EntityState.Modified;
         }
 
-        public IEnumerable<Departure> Find(Func<Departure, Boolean> predicate)
+        public  async Task Delete(int id)
         {
-            return db.Departures.Where(predicate).ToList();
-        }
-
-        public void Delete(int id)
-        {
-            Departure item = db.Departures.Find(id);
+            Departure item = await db.Departures.FindAsync(id);
             if (item != null)
                 db.Departures.Remove(item);
         }

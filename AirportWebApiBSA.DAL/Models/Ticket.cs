@@ -9,6 +9,7 @@ namespace AirportWebApiBSA.DAL.Models
     public class Ticket : Interfaces.IModel
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [ForeignKey("Flight")]
         public int FlightNumber { get; set; }

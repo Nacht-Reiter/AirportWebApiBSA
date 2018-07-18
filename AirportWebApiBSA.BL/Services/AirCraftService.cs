@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.BLL.Services
 {
@@ -20,26 +21,27 @@ namespace AirportWebApiBSA.BLL.Services
             Mapper = mapper;
         }
 
-        public void Create(AirCraftDTO item)
+        public async Task Create(AirCraftDTO item)
         {
-            UnitOfWork.AirCrafts.Create(Mapper.Map<AirCraftDTO, AirCraft>(item));
-            UnitOfWork.Save();
+            await UnitOfWork.AirCrafts.Create(Mapper.Map<AirCraftDTO, AirCraft>(item));
+            await UnitOfWork.Save();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            UnitOfWork.AirCrafts.Delete(id);
-            UnitOfWork.Save();
+            await UnitOfWork.AirCrafts.Delete(id);
+            await UnitOfWork.Save();
         }
 
-        public AirCraftDTO Get(int id)
+        public async Task<AirCraftDTO> Get(int id)
         {
-            return Mapper.Map<AirCraft, AirCraftDTO>(UnitOfWork.AirCrafts.Get(id));
+            return Mapper.Map<AirCraft, AirCraftDTO>(await UnitOfWork.AirCrafts.Get(id));
         }
 
-        public IEnumerable<AirCraftDTO> GetAll()
+        public async Task<IEnumerable<AirCraftDTO>> GetAll()
         {
-            return UnitOfWork.AirCrafts.GetAll().Select(p => Mapper.Map<AirCraft, AirCraftDTO>(p));
+            var temp = await UnitOfWork.AirCrafts.GetAll();
+            return temp.Select(p => Mapper.Map<AirCraft, AirCraftDTO>(p));
         }
 
         public void Update(int id, AirCraftDTO item)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
@@ -19,19 +20,19 @@ namespace AirportWebApiBSA.DAL.Repositories
         private AirportContext db;
 
 
-        public IEnumerable<Flight> GetAll()
+        public async Task<IEnumerable<Flight>> GetAll()
         {
-            return db.Flights.Include(s => s.Tickets);
+            return await db.Flights.Include(s => s.Tickets).ToListAsync();
         }
 
-        public Flight Get(int id)
+        public async Task<Flight> Get(int id)
         {
-            return db.Flights.Include(s => s.Tickets).FirstOrDefault(f => f.Id == id);
+            return await db.Flights.Include(s => s.Tickets).FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public void Create(Flight item)
+        public async Task Create(Flight item)
         {
-            db.Flights.Add(item);
+            await db.Flights.AddAsync(item);
         }
 
         public void Update(Flight item)
@@ -39,14 +40,9 @@ namespace AirportWebApiBSA.DAL.Repositories
             db.Entry(item).State = EntityState.Modified;
         }
 
-        public IEnumerable<Flight> Find(Func<Flight, Boolean> predicate)
+        public async Task Delete(int id)
         {
-            return db.Flights.Where(predicate).ToList();
-        }
-
-        public void Delete(int id)
-        {
-            Flight item = db.Flights.Find(id);
+            Flight item = await db.Flights.FindAsync(id);
             if (item != null)
                 db.Flights.Remove(item);
         }

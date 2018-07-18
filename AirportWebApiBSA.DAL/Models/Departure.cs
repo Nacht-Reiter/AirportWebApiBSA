@@ -9,6 +9,7 @@ namespace AirportWebApiBSA.DAL.Models
     public class Departure : Interfaces.IModel
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int FlightNumber { get; set; }
         public DateTime DepartureDate { get; set; }

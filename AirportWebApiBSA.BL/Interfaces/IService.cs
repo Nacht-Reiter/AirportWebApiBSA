@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using AirportWebApiBSA.Shared.DTOs;
 
 namespace AirportWebApiBSA.BLL.Interfaces
 {
     public interface IService<T> where T: IDTO
     {
-        void Create(T item);
-        IEnumerable<T> GetAll();
-        T Get(int id);
+        Task Create(T item);
+        Task<IEnumerable<T>> GetAll();
+        Task<T> Get(int id);
         void Update(int id, T item);
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

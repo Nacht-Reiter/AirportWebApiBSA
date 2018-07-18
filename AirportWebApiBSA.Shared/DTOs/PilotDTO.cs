@@ -7,9 +7,9 @@ namespace AirportWebApiBSA.Shared.DTOs
     public class PilotDTO : IDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public DateTime Birthday { get; set; }
-        public TimeSpan Expirience { get; set; }
+        public int Expirience { get; set; }
     }
 }

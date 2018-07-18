@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
@@ -19,19 +20,19 @@ namespace AirportWebApiBSA.DAL.Repositories
         private AirportContext db;
 
 
-        public IEnumerable<Pilot> GetAll()
+        public async Task<IEnumerable<Pilot>> GetAll()
         {
-            return db.Pilots;
+            return await db.Pilots.ToListAsync();
         }
 
-        public Pilot Get(int id)
+        public async Task<Pilot> Get(int id)
         {
-            return db.Pilots.Find(id);
+            return await db.Pilots.FindAsync(id);
         }
 
-        public void Create(Pilot item)
+        public async Task Create(Pilot item)
         {
-            db.Pilots.Add(item);
+            await db.Pilots.AddAsync(item);
         }
 
         public void Update(Pilot item)
@@ -39,14 +40,9 @@ namespace AirportWebApiBSA.DAL.Repositories
             db.Entry(item).State = EntityState.Modified;
         }
 
-        public IEnumerable<Pilot> Find(Func<Pilot, Boolean> predicate)
+        public async Task Delete(int id)
         {
-            return db.Pilots.Where(predicate).ToList();
-        }
-
-        public void Delete(int id)
-        {
-            Pilot item = db.Pilots.Find(id);
+            Pilot item = await db.Pilots.FindAsync(id);
             if (item != null)
                 db.Pilots.Remove(item);
         }

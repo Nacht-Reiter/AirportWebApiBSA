@@ -25,25 +25,25 @@ namespace AirportWebApiBSA.WEB.Controllers
 
         // GET: api/AirCrafts
         [HttpGet]
-        public JsonResult Get()
+        public async Task<JsonResult> Get()
         {
-            return Json(Service.GetAll());
+            return Json(await Service.GetAll());
         }
 
         // GET: api/AirCrafts/5
         [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        public async Task<JsonResult> Get(int id)
         {
-            return Json(Service.Get(id));
+            return Json(await Service.Get(id));
         }
 
         // POST: api/AirCrafts
         [HttpPost]
-        public void Post([FromBody]AirCraftDTO value)
+        public async Task Post([FromBody]AirCraftDTO value)
         {
             if (ModelState.IsValid)
             {
-                Service.Create(value);
+                await Service.Create(value);
             }
         }
 
@@ -59,9 +59,9 @@ namespace AirportWebApiBSA.WEB.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            Service.Delete(id);
+            await Service.Delete(id);
         }
     }
 }

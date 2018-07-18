@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.BLL.Services
 {
@@ -20,26 +21,27 @@ namespace AirportWebApiBSA.BLL.Services
             Mapper = mapper;
         }
 
-        public void Create(TicketDTO item)
+        public async Task Create(TicketDTO item)
         {
-            UnitOfWork.Tickets.Create(Mapper.Map<TicketDTO, Ticket>(item));
-            UnitOfWork.Save();
+            await UnitOfWork.Tickets.Create(Mapper.Map<TicketDTO, Ticket>(item));
+            await UnitOfWork.Save();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            UnitOfWork.Tickets.Delete(id);
-            UnitOfWork.Save();
+            await UnitOfWork.Tickets.Delete(id);
+            await UnitOfWork.Save();
         }
 
-        public TicketDTO Get(int id)
+        public async Task<TicketDTO> Get(int id)
         {
-            return Mapper.Map<Ticket, TicketDTO>(UnitOfWork.Tickets.Get(id));
+            return Mapper.Map<Ticket, TicketDTO>(await UnitOfWork.Tickets.Get(id));
         }
 
-        public IEnumerable<TicketDTO> GetAll()
+        public async Task<IEnumerable<TicketDTO>> GetAll()
         {
-            return UnitOfWork.Tickets.GetAll().Select(p => Mapper.Map<Ticket, TicketDTO>(p));
+            var temp = await UnitOfWork.Tickets.GetAll();
+            return temp.Select(p => Mapper.Map<Ticket, TicketDTO>(p));
         }
 
         public void Update(int id, TicketDTO item)

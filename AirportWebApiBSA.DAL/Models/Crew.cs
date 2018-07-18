@@ -9,6 +9,7 @@ namespace AirportWebApiBSA.DAL.Models
     public class Crew : Interfaces.IModel
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [ForeignKey("Pilot")]
         public int PilotId { get; set; }

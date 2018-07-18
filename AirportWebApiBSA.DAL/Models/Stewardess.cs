@@ -9,11 +9,12 @@ namespace AirportWebApiBSA.DAL.Models
     public class Stewardess : Interfaces.IModel
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [ForeignKey("Crew")]
         public int CrewId { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public DateTime Birthday { get; set; }
     }
 }

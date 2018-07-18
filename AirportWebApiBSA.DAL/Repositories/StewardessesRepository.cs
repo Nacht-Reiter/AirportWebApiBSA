@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
@@ -19,19 +20,19 @@ namespace AirportWebApiBSA.DAL.Repositories
         private AirportContext db;
 
 
-        public IEnumerable<Stewardess> GetAll()
+        public async Task<IEnumerable<Stewardess>> GetAll()
         {
-            return db.Stewardesses;
+            return await db.Stewardesses.ToListAsync();
         }
 
-        public Stewardess Get(int id)
+        public async Task<Stewardess> Get(int id)
         {
-            return db.Stewardesses.Find(id);
+            return await db.Stewardesses.FindAsync(id);
         }
 
-        public void Create(Stewardess item)
+        public async Task Create(Stewardess item)
         {
-            db.Stewardesses.Add(item);
+            await db.Stewardesses.AddAsync(item);
         }
 
         public void Update(Stewardess item)
@@ -39,14 +40,10 @@ namespace AirportWebApiBSA.DAL.Repositories
             db.Entry(item).State = EntityState.Modified;
         }
 
-        public IEnumerable<Stewardess> Find(Func<Stewardess, Boolean> predicate)
-        {
-            return db.Stewardesses.Where(predicate).ToList();
-        }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            Stewardess item = db.Stewardesses.Find(id);
+            Stewardess item = await db.Stewardesses.FindAsync(id);
             if (item != null)
                 db.Stewardesses.Remove(item);
         }

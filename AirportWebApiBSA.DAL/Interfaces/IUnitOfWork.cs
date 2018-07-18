@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using AirportWebApiBSA.DAL.Models;
 
 namespace AirportWebApiBSA.DAL.Interfaces
@@ -21,6 +22,6 @@ namespace AirportWebApiBSA.DAL.Interfaces
 
         IRepository<Flight> Flights { get; }
 
-        void Save();
+        Task Save();
     }
 }

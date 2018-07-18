@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.BLL.Services
 {
@@ -17,33 +18,34 @@ namespace AirportWebApiBSA.BLL.Services
             UnitOfWork = unitOfWork;
         }
 
-        public void Create(DepartureDTO item)
+        public async Task Create(DepartureDTO item)
         {
-            UnitOfWork.Departures.Create(MapDeparture(item));
-            UnitOfWork.Save();
+            await UnitOfWork.Departures.Create(await MapDeparture(item));
+            await UnitOfWork.Save();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            UnitOfWork.Departures.Delete(id);
-            UnitOfWork.Save();
+            await UnitOfWork.Departures.Delete(id);
+            await UnitOfWork.Save();
         }
 
-        public DepartureDTO Get(int id)
+        public async Task<DepartureDTO> Get(int id)
         {
-            return MapDepartureDTO(UnitOfWork.Departures.Get(id));
+            return MapDepartureDTO(await UnitOfWork.Departures.Get(id));
         }
 
-        public IEnumerable<DepartureDTO> GetAll()
+        public async Task<IEnumerable<DepartureDTO>> GetAll()
         {
-            return UnitOfWork.Departures.GetAll().Select(p => MapDepartureDTO(p));
+            var temp = await UnitOfWork.Departures.GetAll();
+            return temp.Select(p => MapDepartureDTO(p));
         }
 
-        public void Update(int id, DepartureDTO item)
+        public async void Update(int id, DepartureDTO item)
         {
             item.Id = id;
-            UnitOfWork.Departures.Update(MapDeparture(item));
-            UnitOfWork.Save();
+            UnitOfWork.Departures.Update(await MapDeparture(item));
+            await UnitOfWork.Save();
         }
 
         private DepartureDTO MapDepartureDTO(Departure item)
@@ -58,13 +60,13 @@ namespace AirportWebApiBSA.BLL.Services
             };
         }
 
-        private Departure MapDeparture(DepartureDTO item)
+        private async Task<Departure> MapDeparture(DepartureDTO item)
         {
             return new Departure
             {
                 Id = item.Id,
-                AirCraft = UnitOfWork.AirCrafts.Get(item.AirCraftId),
-                Crew = UnitOfWork.Crews.Get(item.CrewId),
+                AirCraft = await UnitOfWork.AirCrafts.Get(item.AirCraftId),
+                Crew = await UnitOfWork.Crews.Get(item.CrewId),
                 DepartureDate = item.DepartureDate,
                 FlightNumber = item.FlightNumber
 

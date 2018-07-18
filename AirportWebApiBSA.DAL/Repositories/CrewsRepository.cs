@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
@@ -19,19 +20,19 @@ namespace AirportWebApiBSA.DAL.Repositories
         private AirportContext db;
 
 
-        public IEnumerable<Crew> GetAll()
+        public async Task<IEnumerable<Crew>> GetAll()
         {
-            return db.Crews.Include(s => s.Pilot).Include(s => s.Stewardesses);
+            return await db.Crews.Include(s => s.Pilot).Include(s => s.Stewardesses).ToListAsync();
         }
 
-        public Crew Get(int id)
+        public async Task<Crew> Get(int id)
         {
-            return db.Crews.Include(s => s.Pilot).Include(s => s.Stewardesses).FirstOrDefault(p => p.Id == id);
+            return await db.Crews.Include(s => s.Pilot).Include(s => s.Stewardesses).FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void Create(Crew item)
+        public async Task Create(Crew item)
         {
-            db.Crews.Add(item);
+            await db.Crews.AddAsync(item);
         }
 
         public void Update(Crew item)
@@ -39,14 +40,9 @@ namespace AirportWebApiBSA.DAL.Repositories
             db.Entry(item).State = EntityState.Modified;
         }
 
-        public IEnumerable<Crew> Find(Func<Crew, Boolean> predicate)
+        public async Task Delete(int id)
         {
-            return db.Crews.Include(s => s.Pilot).Include(s => s.Stewardesses).Where(predicate).ToList();
-        }
-
-        public void Delete(int id)
-        {
-            Crew item = db.Crews.Find(id);
+            Crew item = await db.Crews.FindAsync(id);
             if (item != null)
                 db.Crews.Remove(item);
         }

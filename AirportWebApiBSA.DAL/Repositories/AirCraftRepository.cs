@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AirportWebApiBSA.DAL.Repositories
 {
@@ -19,19 +20,19 @@ namespace AirportWebApiBSA.DAL.Repositories
         private AirportContext db;
 
 
-        public IEnumerable<AirCraft> GetAll()
+        public async Task<IEnumerable<AirCraft>> GetAll()
         {
-            return db.AirCrafts.Include(a => a.Id);
+            return await db.AirCrafts.Include(a => a.Id).ToListAsync();
         }
 
-        public AirCraft Get(int id)
+        public async Task<AirCraft> Get(int id)
         {
-            return db.AirCrafts.Include(a => a.AirCraftType).FirstOrDefault(p => p.Id == id);
+            return await db.AirCrafts.Include(a => a.AirCraftType).FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void Create(AirCraft item)
+        public async Task Create(AirCraft item)
         {
-            db.AirCrafts.Add(item);
+            await db.AirCrafts.AddAsync(item);
         }
 
         public void Update(AirCraft item)
@@ -39,14 +40,9 @@ namespace AirportWebApiBSA.DAL.Repositories
             db.Entry(item).State = EntityState.Modified;
         }
 
-        public IEnumerable<AirCraft> Find(Func<AirCraft, Boolean> predicate)
+        public async Task Delete(int id)
         {
-            return db.AirCrafts.Where(predicate).ToList();
-        }
-
-        public void Delete(int id)
-        {
-            AirCraft item = db.AirCrafts.Find(id);
+            AirCraft item = await db.AirCrafts.FindAsync(id);
             if (item != null)
                 db.AirCrafts.Remove(item);
         }

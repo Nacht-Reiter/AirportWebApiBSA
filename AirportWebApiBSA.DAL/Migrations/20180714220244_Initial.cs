@@ -9,6 +9,29 @@ namespace AirportWebApiBSA.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Departures");
+
+            migrationBuilder.DropTable(
+                name: "Stewardesses");
+
+            migrationBuilder.DropTable(
+                name: "Tickets");
+
+            migrationBuilder.DropTable(
+                name: "AirCrafts");
+
+            migrationBuilder.DropTable(
+                name: "Crews");
+
+            migrationBuilder.DropTable(
+                name: "Flights");
+
+            migrationBuilder.DropTable(
+                name: "AirCraftTypes");
+
+            migrationBuilder.DropTable(
+                name: "Pilots");
 
             migrationBuilder.CreateTable(
                 name: "AirCraftTypes",

@@ -6,26 +6,27 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 public class DataSeeder
 {
-    public static void Seed(IServiceProvider serviceProvider)
+    public static async void Seed(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<AirportContext>();
         context.Database.EnsureCreated();
-        SeedPilots(context);
-        
-        
-        SeedTickets(context);
-        SeedCrews(context);
-        SeedStewardesses(context);
-        SeedAirCraftTypes(context);
-        SeedAirCrafts(context);
-        SeedFlights(context);
-        SeedDepartures(context);
+        await SeedPilots(context);
+            
+        SeedTickets(context).Wait();
+        SeedCrews(context).Wait();
+        SeedStewardesses(context).Wait();
+        SeedAirCraftTypes(context).Wait();
+        SeedAirCrafts(context).Wait();
+        SeedFlights(context).Wait();
+        SeedDepartures(context).Wait();
+
     }
 
-    public static void SeedPilots(AirportContext context)
+    public static async Task SeedPilots(AirportContext context)
     {
         if (!context.Pilots.Any())
         {
@@ -33,29 +34,32 @@ public class DataSeeder
             {
                 new Pilot
                 {
-                    Name = "John",
-                    Surname = "Galt",
-                    Birthday = new DateTime(1985, 5, 15)
+                    FirstName = "John",
+                    LastName = "Galt",
+                    Birthday = new DateTime(1985, 5, 15),
+                    Expirience = 5
                 },
                 new Pilot
                 {
-                    Name = "Hank",
-                    Surname = "Rearden",
-                    Birthday = new DateTime(1975, 12, 7)
+                    FirstName = "Hank",
+                    LastName = "Rearden",
+                    Birthday = new DateTime(1975, 12, 7),
+                    Expirience = 3
                 },
                 new Pilot
                 {
-                    Name = "Francisco",
-                    Surname = "d'Anconia",
-                    Birthday = new DateTime(1988, 9, 17)
+                    FirstName = "Francisco",
+                    LastName = "d'Anconia",
+                    Birthday = new DateTime(1988, 9, 17),
+                    Expirience = 2
                 }
             };
-            context.AddRange(ItemsList);
+            await context.AddRangeAsync(ItemsList);
             context.SaveChanges();
         }
 
     }
-    public static void SeedStewardesses(AirportContext context)
+    public static async Task SeedStewardesses(AirportContext context)
     {
         if (!context.Stewardesses.Any())
         {
@@ -63,8 +67,9 @@ public class DataSeeder
             {
                 new Stewardess
                 {
-                    Name = "Maria",
-                    Surname = "Hernandez",
+
+                    FirstName = "Maria",
+                    LastName = "Hernandez",
                     Birthday = new DateTime(1996, 7, 11),
                     CrewId = 1
                     
@@ -72,39 +77,40 @@ public class DataSeeder
                 },
                 new Stewardess
                 {
-                    Name = "Sarah",
-                    Surname = "Williams",
+                    FirstName = "Sarah",
+                    LastName = "Williams",
                     Birthday = new DateTime(1995, 12, 7),
                     CrewId = 1
                 },
                 new Stewardess
                 {
-                    Name = "Ann",
-                    Surname = "Jones",
+                    FirstName = "Ann",
+                    LastName = "Jones",
                     Birthday = new DateTime(1988, 9, 17),
                     CrewId = 2
                 },
                 new Stewardess
                 {
-                    Name = "Nancy",
-                    Surname = "Taylor",
+                    FirstName = "Nancy",
+                    LastName = "Taylor",
                     Birthday = new DateTime(1997, 3, 4),
                     CrewId = 2
                 },
                 new Stewardess
                 {
-                    Name = "Catherine",
-                    Surname = "Clark",
+                    FirstName = "Catherine",
+                    LastName = "Clark",
                     Birthday = new DateTime(1992, 1, 28),
                     CrewId = 3
                 }
             };
-            context.AddRange(ItemsList);
+            await context.AddRangeAsync(ItemsList);
             context.SaveChanges();
+
         }
 
     }
-    public static void SeedFlights(AirportContext context)
+    public static async Task SeedFlights(AirportContext context)
     {
         if (!context.Flights.Any())
         {
@@ -118,8 +124,8 @@ public class DataSeeder
                     Destination = "New-York",
                     Tickets = new List<Ticket>
                     {
-                        new TicketRepository(context).Get(1),
-                        new TicketRepository(context).Get(2)
+                        await new TicketRepository(context).Get(1),
+                        await new TicketRepository(context).Get(2)
                     }
                 },
                 new Flight
@@ -130,9 +136,9 @@ public class DataSeeder
                     Destination = "Munich",
                     Tickets = new List<Ticket>
                     {
-                        new TicketRepository(context).Get(3),
-                        new TicketRepository(context).Get(4),
-                        new TicketRepository(context).Get(5)
+                        await new TicketRepository(context).Get(3),
+                        await new TicketRepository(context).Get(4),
+                        await new TicketRepository(context).Get(5)
                     }
                 },
                 new Flight
@@ -143,18 +149,18 @@ public class DataSeeder
                     Destination = "Tanger",
                     Tickets = new List<Ticket>
                     {
-                        new TicketRepository(context).Get(6),
-                        new TicketRepository(context).Get(7),
-                        new TicketRepository(context).Get(8)
+                        await new TicketRepository(context).Get(6),
+                        await new TicketRepository(context).Get(7),
+                        await new TicketRepository(context).Get(8)
                     }
                 }
             };
-            context.AddRange(ItemsList);
+            await context.AddRangeAsync(ItemsList);
             context.SaveChanges();
         }
 
     }
-    public static void SeedDepartures(AirportContext context)
+    public static async Task SeedDepartures(AirportContext context)
     {
         if (!context.Departures.Any())
         {
@@ -164,30 +170,30 @@ public class DataSeeder
                 {
                     FlightNumber = 1,
                     DepartureDate = new DateTime(2018, 07, 24),
-                    Crew = new CrewsRepository(context).Get(1),
-                    AirCraft = new AirCraftRepository(context).Get(1)
+                    Crew = await new CrewsRepository(context).Get(1),
+                    AirCraft = await new AirCraftRepository(context).Get(1)
                 },
                 new Departure
                 {
                     FlightNumber = 2,
                     DepartureDate = new DateTime(2018, 07, 25),
-                    Crew = new CrewsRepository(context).Get(2),
-                    AirCraft = new AirCraftRepository(context).Get(2)
+                    Crew = await new CrewsRepository(context).Get(2),
+                    AirCraft = await new AirCraftRepository(context).Get(2)
                 },
                 new Departure
                 {
                     FlightNumber = 3,
                     DepartureDate = new DateTime(2018, 07, 24),
-                    Crew = new CrewsRepository(context).Get(3),
-                    AirCraft = new AirCraftRepository(context).Get(3)
+                    Crew = await new CrewsRepository(context).Get(3),
+                    AirCraft = await new AirCraftRepository(context).Get(3)
                 }
             };
-            context.AddRange(ItemsList);
+            await context.AddRangeAsync(ItemsList);
             context.SaveChanges();
         }
 
     }
-    public static void SeedAirCrafts(AirportContext context)
+    public static async Task SeedAirCrafts(AirportContext context)
     {
         if (!context.AirCrafts.Any())
         {
@@ -196,28 +202,32 @@ public class DataSeeder
                 new AirCraft
                 {
                     Name = "DF-23",
-                    AirCraftType = new AirCraftTypeRepository(context).Get(1),
-                    Manufactured = new DateTime(1990, 12, 01)
+                    AirCraftType = await new AirCraftTypeRepository(context).Get(1),
+                    Manufactured = new DateTime(1990, 12, 01),
+                    Age = 28
                 },
                 new AirCraft
                 {
                     Name = "DN-48",
-                    AirCraftType = new AirCraftTypeRepository(context).Get(2),
-                    Manufactured = new DateTime(2012, 4, 18)
+                    AirCraftType = await new AirCraftTypeRepository(context).Get(2),
+                    Manufactured = new DateTime(2012, 4, 18),
+                    Age = 6
                 },
                 new AirCraft
                 {
                     Name = "KL-18",
-                    AirCraftType = new AirCraftTypeRepository(context).Get(2),
-                    Manufactured = new DateTime(2011, 9, 8)
+                    AirCraftType = await new AirCraftTypeRepository(context).Get(2),
+                    Manufactured = new DateTime(2011, 9, 8),
+                    Age = 7
                 }
             };
-            context.AddRange(ItemsList);
+            await context.AddRangeAsync(ItemsList);
             context.SaveChanges();
+            context.Dispose();
         }
 
     }
-    public static void SeedAirCraftTypes(AirportContext context)
+    public static async Task SeedAirCraftTypes(AirportContext context)
     {
         if (!context.AirCraftTypes.Any())
         {
@@ -236,12 +246,12 @@ public class DataSeeder
                     CargoCapacity = 2000
                 }
             };
-            context.AddRange(ItemsList);
+            await context.AddRangeAsync(ItemsList);
             context.SaveChanges();
         }
 
     }
-    public static void SeedCrews(AirportContext context)
+    public static async Task SeedCrews(AirportContext context)
     {
         if (!context.Crews.Any())
         {
@@ -249,17 +259,17 @@ public class DataSeeder
             {
                 new Crew
                 {
-                    Pilot = new PilotsRepository(context).Get(1),
+                    Pilot = await new PilotsRepository(context).Get(1),
                     
                 },
                 new Crew
                 {
-                    Pilot = new PilotsRepository(context).Get(2),
+                    Pilot = await new PilotsRepository(context).Get(2),
                     
                 },
                 new Crew
                 {
-                    Pilot = new PilotsRepository(context).Get(3),
+                    Pilot = await new PilotsRepository(context).Get(3),
                     
                 }
             };
@@ -268,7 +278,7 @@ public class DataSeeder
         }
 
     }
-    public static void SeedTickets(AirportContext context)
+    public static async Task SeedTickets(AirportContext context)
     {
         if (!context.Tickets.Any())
         {
@@ -315,7 +325,7 @@ public class DataSeeder
                     Price = 7500
                 }
             };
-            context.AddRange(ItemsList);
+            await context.AddRangeAsync(ItemsList);
             context.SaveChanges();
         }
 
