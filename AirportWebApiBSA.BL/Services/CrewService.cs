@@ -53,7 +53,8 @@ namespace AirportWebApiBSA.BLL.Services
             string responseBody = await response.Content.ReadAsStringAsync();
             client.Dispose();
             var Items = JsonConvert.DeserializeObject<IEnumerable<CrewRemoteDTO>>(responseBody).Take(10);
-            await Task.WhenAll(RemoteCrewToCSV(Items), RemoteCrewToDB(Items));
+            await RemoteCrewToDB(Items);
+            await Task.WhenAll(RemoteCrewToCSV(Items));
             
         }
 
@@ -80,7 +81,7 @@ namespace AirportWebApiBSA.BLL.Services
             foreach (var i in Stewardesses)
             {
                 i.Id = 0;
-                await UnitOfWork.Stewardesses.Create(MapStewardessRemote(i));
+                await UnitOfWork.Stewardesses.Create(i);
             }
             foreach (var i in Items)
             {
@@ -119,23 +120,19 @@ namespace AirportWebApiBSA.BLL.Services
         }
         private Crew MapCrewRemote(CrewRemoteDTO item)
         {
-            var Stewardess = new List<Stewardess>();
-            foreach(var s in item.Stewardess)
-            {
-                Stewardess.Add(MapStewardessRemote(s));
-            }
+            
             return new Crew
             {
-                Id = item.Id,
+                
                 Pilot = MapPilotRemote(item.Pilot.ElementAt(0)),
-                Stewardesses = Stewardess
+                Stewardesses = item.Stewardess
             };
         }
         private Stewardess MapStewardessRemote(StewardessRemoteDTO item)
         {
             return new Stewardess
             {
-                Id = item.Id,
+               
                 Birthday = item.BirthDate,
                 CrewId = item.CrewId,
                 FirstName = item.FirstName,
@@ -146,7 +143,7 @@ namespace AirportWebApiBSA.BLL.Services
         {
             return new Pilot
             {
-                Id = item.Id,
+                
                 Birthday = item.BirthDate,
                 FirstName = item.FirstName,
                 LastName = item.LastName,
