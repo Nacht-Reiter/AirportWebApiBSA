@@ -29,6 +29,7 @@ namespace AirportWebApiBSA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors();
             services.AddScoped<DAL.Interfaces.IUnitOfWork, DAL.Repositories.UnitOfWork> ();
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IService<PilotDTO>, BLL.Services.PilotService>();
@@ -52,7 +53,8 @@ namespace AirportWebApiBSA
                 app.UseDeveloperExceptionPage();
 
             }
-
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:4200").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
             app.UseMvc();
         }
     }

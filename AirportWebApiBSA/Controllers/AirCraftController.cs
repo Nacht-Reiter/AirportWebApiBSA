@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportWebApiBSA.WEB.Controllers
 {
     [Produces("application/json")]
-    [Route("api/AirCraft")]
+    [Route("api/AirCrafts")]
     public class AirCraftController : Controller
     {
         private IService<AirCraftDTO> Service;

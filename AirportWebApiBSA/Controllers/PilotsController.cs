@@ -51,8 +51,8 @@ namespace AirportWebApiBSA.WEB.Controllers
         {
             Service.Update(id, value);
         }
-        
-        // DELETE: api/ApiWithActions/5
+
+        // DELETE: api/Pilots/5
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {
